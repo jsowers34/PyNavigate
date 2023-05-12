@@ -1,0 +1,22 @@
+
+GtkTextView { 
+    border-color: red;
+}
+
+GtkLabel#labelLBL {
+    background-color: blue;
+}
+
+.font_default {
+    color: white;
+    font-size: 42px;
+    text-shadow: 2px 2px 2px black;
+}
+
+.separater {
+	background-color: black;
+}
+
+.button {
+	background-color: green;
+}
