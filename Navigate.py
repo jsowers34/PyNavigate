@@ -5,23 +5,31 @@
  *     Demonstrates the use of the PyNavigate package
  ***************************************************************************** 
  * MODIFICATIONS
- * @author JL Sowers May 2, 2023
+ * @author JL Sowers May 2, 2023    Initial Code
+ *
+ *         JL Sowers May 26, 2023   Added background color to indicate Result fields
  ***************************************************************************** 
  *  DESIGN NOTES:
- *     
+ *     Overiding the color without CSS caused a deprecate warning which
+ *     we tell the system to ignore.
  ***************************************************************************** 
 '''
 from GeographicPosition import GeographicPosition
 from NavUtils import NavUtils
 from NavCommon import NavCommon
 from NavError import NavError
+import warnings
 
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk as gtk
+from gi.repository import Gdk as gdk
 
 class Navigate(object):
     def __init__(self):
+        # Overriding the color without CSS gives a deprecated warning
+        warnings.filterwarnings("ignore", category=DeprecationWarning) 
+        
         self.NC = NavCommon()
         self.navu = NavUtils()
         self.gladefile = "Navigate.glade"  
@@ -29,6 +37,11 @@ class Navigate(object):
         builder.add_from_file(self.gladefile)
         self.topLevel = builder.get_object('toplevel')
         
+        # Use a light blue to indicate results areas  
+        self.color = gdk.RGBA()
+        self.color.parse("#b0e2ff")  # light sky blue 1
+        self.color.to_string()
+
         # a flag to see if we are in DecDec or DMS mode
         self.dms_f = True
         self.currentPage = 'Bearing'
@@ -89,16 +102,18 @@ class Navigate(object):
         
         # Bearing
         self.bearingDeg = builder.get_object('bearingDeg')
+        self.setBackground(self.bearingDeg)
         self.bearingMin = builder.get_object('bearingMin')
+        self.setBackground(self.bearingMin)
         self.bearingSec = builder.get_object('bearingSec')
+        self.setBackground(self.bearingSec)
         self.bearingDegBUF = builder.get_object('bearingDegBUF')
         self.bearingMinBUF = builder.get_object('bearingMinBUF')
         self.bearingSecBUF = builder.get_object('bearingSecBUF')
-        self.bearingLonDeg = builder.get_object('bearingLonDeg')
-        self.bearingLonMin = builder.get_object('bearingLonMin')
         
         # Distance
         self.gcrange = builder.get_object('gcRange')
+        self.setBackground(self.gcrange)
         self.gcrangeBUF = builder.get_object('gcRangeBUF')
         
     def setupCourseSpeedPage(self, builder):
@@ -119,15 +134,21 @@ class Navigate(object):
         
         # Final Position Latitude, Longitude
         self.finalLatDeg1 = builder.get_object('finalLatDeg1')
+        self.setBackground(self.finalLatDeg1)
         self.finalLatMin1 = builder.get_object('finalLatMin1')
+        self.setBackground(self.finalLatMin1)
         self.finalLatSec1 = builder.get_object('finalLatSec1')
+        self.setBackground(self.finalLatSec1)
         self.finalLatDegBUF = builder.get_object('finalLatDegBUF')
         self.finalLatMinBUF = builder.get_object('finalLatMinBUF')
         self.finalLatSecBUF = builder.get_object('finalLatSecBUF')
         
         self.finalLonDeg1 = builder.get_object('finalLonDeg1')
+        self.setBackground(self.finalLonDeg1)
         self.finalLonMin1 = builder.get_object('finalLonMin1')
+        self.setBackground(self.finalLonMin1)
         self.finalLonSec1 = builder.get_object('finalLonSec1')
+        self.setBackground(self.finalLonSec1)
         self.finalLonDegBUF = builder.get_object('finalLonDegBUF')
         self.finalLonMinBUF = builder.get_object('finalLonMinBUF')
         self.finalLonSecBUF = builder.get_object('finalLonSecBUF')
@@ -167,15 +188,21 @@ class Navigate(object):
         
         # Final Position Latitude, Longitude
         self.finalLatDeg2 = builder.get_object('finalLatDeg2')
+        self.setBackground(self.finalLatDeg2)
         self.finalLatMin2 = builder.get_object('finalLatMin2')
+        self.setBackground(self.finalLatMin2)
         self.finalLatSec2 = builder.get_object('finalLatSec2')
+        self.setBackground(self.finalLatSec2)
         self.finalLatDegBUF = builder.get_object('finalLatDegBUF')
         self.finalLatMinBUF = builder.get_object('finalLatMinBUF')
         self.finalLatSecBUF = builder.get_object('finalLatSecBUF')
         
         self.finalLonDeg2 = builder.get_object('finalLonDeg2')
+        self.setBackground(self.finalLonDeg2)
         self.finalLonMin2 = builder.get_object('finalLonMin2')
+        self.setBackground(self.finalLonMin2)
         self.finalLonSec2 = builder.get_object('finalLonSec2')
+        self.setBackground(self.finalLonSec2)
         self.finalLonDegBUF = builder.get_object('finalLonDegBUF')
         self.finalLonMinBUF = builder.get_object('finalLonMinBUF')
         self.finalLonSecBUF = builder.get_object('finalLonSecBUF')
@@ -233,28 +260,40 @@ class Navigate(object):
         self.cpaSpeed2 = builder.get_object('cpaSpeed2')
         self.cpaSpeed2BUF = builder.get_object('speed2BUF')
         
-        
         # CPA Data
         self.cpaFinalLatDeg = builder.get_object('cpaFinalLatDeg')
+        self.setBackground(self.cpaFinalLatDeg)
         self.cpaFinalLatMin = builder.get_object('cpaFinalLatMin')
+        self.setBackground(self.cpaFinalLatMin)
         self.cpaFinalLatSec = builder.get_object('cpaFinalLatSec')
+        self.setBackground(self.cpaFinalLatSec)
         self.cpaFinalLatDegBUF = builder.get_object('finalLatDegBUF')
         self.cpaFinalLatMinBUF = builder.get_object('finalLatMinBUF')
         self.cpaFinalLatSecBUF = builder.get_object('finalLatSecBUF')
         self.cpaFinalLonDeg = builder.get_object('cpaFinalLonDeg')
+        self.setBackground(self.cpaFinalLonDeg)
         self.cpaFinalLonMin = builder.get_object('cpaFinalLonMin')
-        self.cpaFinalLonSec = builder.get_object('cpaFinalLonSec')
+        self.setBackground(self.cpaFinalLonMin)
+        self.cpaFinalLonMin = builder.get_object('cpaFinalLonSec')
+        self.setBackground(self.cpaFinalLonMin)
         self.cpaFinalLonDegBUF = builder.get_object('finalLonDegBUF')
         self.cpaFinalLonMinBUF = builder.get_object('finalLonMinBUF')
         self.cpaFinalLonSecBUF = builder.get_object('finalLonSecBUF')
         self.distCPA = builder.get_object('distCPA')
+        self.setBackground(self.distCPA)
         self.distCPABUF = builder.get_object('distCPABUF')
         self.rangeCPA = builder.get_object('rangeCPA')
+        self.setBackground(self.rangeCPA)
         self.rangeCPABUF = builder.get_object('rangeCPABUF')
         self.elapsedTime = builder.get_object('elapsedTime')
+        self.setBackground(self.elapsedTime)
         self.elapsedTimeBUF = builder.get_object('elapsedTimeBUF')
         self.statusCPA = builder.get_object('statusCPA')
+        self.setBackground(self.statusCPA)
         self.statusCPABUF = builder.get_object('statusCPABUF')
+        
+    def setBackground(self, field):
+        field.override_background_color(gtk.StateFlags.NORMAL, self.color)
 
     def checkRButtons(self, button, bname):
         if button.get_active():

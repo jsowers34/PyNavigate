@@ -11,7 +11,7 @@
  ***************************************************************************** 
 '''
 from enum import Enum
-from com.rff.pynavigate.GeographicPosition import GeographicPosition
+from GeographicPosition import GeographicPosition
 
 class CPA_State(Enum):
     VALID = 1               # Vessels are approaching each other

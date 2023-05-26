@@ -11,9 +11,10 @@
  ***************************************************************************** 
 '''
 import math
-import com.rff.pynavigate.NavError as NavError
+import NavError as NavError
 
-class NavCommon(object):   
+class NavCommon(object):
+    """ Handy Constants and functions. """   
     C_MS_PER_NM = 6.177606
     HR_PER_SEC = 2.777777778e-4
     INDEX_REF_SEA = 1.000338
@@ -84,7 +85,6 @@ class NavCommon(object):
             a = isec/60
             imin = imin + a
             sec = sec - 60*a
-            
         if(imin >= 60):
             a = int(imin/60)
             ideg = abs(ideg) + a
@@ -95,6 +95,23 @@ class NavCommon(object):
     
     def normalizeHMS(self, hms):
         return self.normalizeDMS(hms)
+    
+    def normalizeLongitude(self, longitude):
+        """ Ensure Longitude is between 0 and 360 deg """
+        if longitude < 0.0:
+            longitude = longitude + 360.0;
+        else:
+            while longitude >= 360.0:
+                longitude = longitude - 360.0
+        return longitude
+    
+    def normalizeLatitude(self, latitude):
+        """ Ensure Latitude is between +90 and -90 deg """
+        sgn = self.signum(latitude)
+        latitude = abs(latitude)
+        if latitude > 90.0:
+            latitude = 180.0 - latitude
+        return latitude * sgn
         
     
 if __name__ == '__main__':

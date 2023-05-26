@@ -10,11 +10,11 @@
  *  
  ***************************************************************************** 
 '''
-from com.rff.pynavigate.Stack import Stack
-from com.rff.pynavigate.Point import Point
-from com.rff.pynavigate.NavCommon import NavCommon
+from Stack import Stack
+from Point import Point
+from NavCommon import NavCommon
 import math
-from com.rff.pynavigate import Orientation
+import Orientation
 
 class Geometry(NavCommon):
     ORIENTATION = Orientation

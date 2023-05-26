@@ -14,12 +14,12 @@
 '''
 import math
 import sys
-from com.rff.pynavigate.NavCommon import NavCommon
-from com.rff.pynavigate.NavError import NavError
 from enum import Enum
-from com.rff.pynavigate.CPA_Data import CPAData
-from com.rff.pynavigate.CPA_Data import CPA_State
-from com.rff.pynavigate.GeographicPosition import GeographicPosition
+from NavCommon import NavCommon
+from NavError import NavError
+from CPA_Data import CPAData
+from CPA_Data import CPA_State
+from GeographicPosition import GeographicPosition
 
 class BearingType(Enum):
     ABSOLUTE = 1
